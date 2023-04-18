@@ -26,15 +26,17 @@ def relative_path(path):
     
     return [ os.path.relpath(i, GETCED) for i in path ]
 
-def text_to_music(text, num_input, max_length, top_p, temperature, file, sf):
+def text_to_music(text, num_input, max_length, top_p, temperature, sf):
     abc_scores =  script.text2music(num_input, max_length, top_p, temperature, text)
     
     path = os.getcwd()
     # 出力するディレクトリ
-    output_dir = os.path.join(path, 'output')
+    d_now = datetime.datetime.now().strftime('%Y-%m-%d')
+    t_now = datetime.datetime.now().strftime('%H%M%S')
+    output_dir = os.path.join(path, fr'output\text-to-music\{d_now}\{t_now}')
     
     if not os.path.isdir(output_dir):
-        os.mkdir(f'{output_dir}')
+        os.makedirs(f'{output_dir}')
     
     new_abc_files = []
     new_midi_files = []
@@ -43,90 +45,79 @@ def text_to_music(text, num_input, max_length, top_p, temperature, file, sf):
     
     
     # text to abc
-    if  FILE_EXT[0] in file:
-        print(FILE_EXT[0])
-        # abcファイル保存先
-        dir_abc = os.path.join(output_dir, r'text-to-abc')
+    # abcファイル保存先
+    dir_abc = os.path.join(output_dir, r'abc')
+    if not os.path.isdir(dir_abc):
+        os.mkdir(f'{dir_abc}')
+    
+    # dt_now = datetime.datetime.now().strftime('%Y-%m-%d')
+    # dir_abc_dt = os.path.join(dir_abc, dt_now)
+    # abc_files = glob.glob(f'{dir_abc_dt}\*')
+    abc_files = glob.glob(f'{dir_abc}\*')
+    time.sleep(3)
+    # dt_now = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+    for num, abc in enumerate(abc_scores, len(abc_files) + 1):
+        # abc = script.removal(abc)
+        
+        pattern = r'"(.*?)"'
+        abc = re.sub(pattern, '', abc)
+        
         if not os.path.isdir(dir_abc):
             os.mkdir(f'{dir_abc}')
-        
-        dt_now = datetime.datetime.now().strftime('%Y-%m-%d')
-        dir_abc_dt = os.path.join(dir_abc, dt_now)
-        abc_files = glob.glob(f'{dir_abc_dt}\*')
+    
+        save_abc = f'{dir_abc}\{num:08}.abc'
+        with open(save_abc, 'a') as f:
+            f.write(f'{unidecode(abc)}')
+            
+        new_abc_files.append(save_abc)
         time.sleep(3)
-        # dt_now = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-        for num, abc in enumerate(abc_scores, len(abc_files) + 1):
-            # abc = script.removal(abc)
-            
-            pattern = r'"(.*?)"'
-            abc = re.sub(pattern, '', abc)
-            
-            # dt_now = datetime.datetime.now().strftime('%Y-%m-%d')
-            # dir_abc_dt = os.path.join(dir_abc, dt_now)
-            # abc_file_len = len(glob.glob(f'{dir_abc_dt}\*'))
-            
-            if not os.path.isdir(dir_abc_dt):
-                os.mkdir(f'{dir_abc_dt}')
         
-            save_abc = f'{dir_abc_dt}\{num:08}.abc'
-            with open(save_abc, 'a') as f:
-                f.write(f'{unidecode(abc)}')
-                
-            new_abc_files.append(save_abc)
-            time.sleep(3)
-            
-        new_abc_files = relative_path(new_abc_files)
+    new_abc_files = relative_path(new_abc_files)
     
     # abc to midi
-    if  FILE_EXT[1] in file:
-        print(FILE_EXT[1])
-        
-        dir_midi = os.path.join(output_dir, r'abc-to-midi')
-        if not os.path.isdir(dir_midi):
-            os.mkdir(f'{dir_midi}')
+    dir_midi = os.path.join(output_dir, r'midi')
+    if not os.path.isdir(dir_midi):
+        os.mkdir(f'{dir_midi}')
 
-        dt_now = datetime.datetime.now().strftime('%Y-%m-%d')
-        dir_midi_dt = os.path.join(dir_midi, dt_now)
-        midi_files = glob.glob(f'{dir_midi_dt}\*')
-        
-        time.sleep(2)
-        new_midi_files = script.abc_to_midi(new_abc_files, dir_midi_dt, len(midi_files))
-        
-        # 変換できなっ方ものの削除
-        # comparison = list(set(new_midi_files) ^ set(midi_files))
-        
-        # print(f'確認：{midi_files}')
-        # print(f'確認：{new_midi_files}')
-        # print(f'確認：{comparison}')
-        
-        # for num, i in enumerate(new_midi_files):
-        #     if i in comparison:
-        #         new_midi_files.pop(num)
+    # dt_now = datetime.datetime.now().strftime('%Y-%m-%d')
+    # dir_midi_dt = os.path.join(dir_midi, dt_now)
+    # midi_files = glob.glob(f'{dir_midi_dt}\*')
+    midi_files = glob.glob(f'{dir_midi}\*')
+    
+    time.sleep(2)
+    new_midi_files = script.abc_to_midi(new_abc_files, dir_midi, len(midi_files))
+    
+    # 変換できなっ方ものの削除
+    # comparison = list(set(new_midi_files) ^ set(midi_files))
+    
+    # print(f'確認：{midi_files}')
+    # print(f'確認：{new_midi_files}')
+    # print(f'確認：{comparison}')
+    
+    # for num, i in enumerate(new_midi_files):
+    #     if i in comparison:
+    #         new_midi_files.pop(num)
 
-        
-        new_midi_files = relative_path(new_midi_files)
+    
+    new_midi_files = relative_path(new_midi_files)
     
     # midi to wav
-    if  FILE_EXT[2] in file:
-        print(FILE_EXT[2])
         
-        dir_wav = os.path.join(output_dir, r'midi-to-wav')
-        if not os.path.isdir(dir_wav):
-            os.mkdir(f'{dir_wav}')
+    dir_wav = os.path.join(output_dir, r'wav')
+    if not os.path.isdir(dir_wav):
+        os.mkdir(f'{dir_wav}')
 
-        dt_now = datetime.datetime.now().strftime('%Y-%m-%d')
-        dir_wav_dt = os.path.join(dir_wav, dt_now)
-        wav_file_len = len(glob.glob(f'{dir_wav_dt}\*'))
-        
-        time.sleep(3)
-        new_wav_files = script.midi_to_wav(new_midi_files, dir_wav_dt, wav_file_len, sf)
-        
-        new_wav_files = relative_path(new_wav_files)
+    # dt_now = datetime.datetime.now().strftime('%Y-%m-%d')
+    # dir_wav_dt = os.path.join(dir_wav, dt_now)
+    # wav_file_len = len(glob.glob(f'{dir_wav_dt}\*'))
+    wav_file_len = len(glob.glob(f'{dir_wav}\*'))
+    
+    time.sleep(3)
+    new_wav_files = script.midi_to_wav(new_midi_files, dir_wav, wav_file_len, sf)
+    
+    new_wav_files = relative_path(new_wav_files)
         
     # wav to mp3
-    if  FILE_EXT[3] in file:
-        print(FILE_EXT[3])
-                
                 
     # abcからmidiにこの時の変換しといてい
     # さらにmidiからwavにしてもいいかもしれない
@@ -136,6 +127,81 @@ def text_to_music(text, num_input, max_length, top_p, temperature, file, sf):
     # print(new_wav_files)
     
     return random.choice(new_wav_files)
+
+def text2abc(text, num_input, max_length, top_p, temperature):
+
+    abc_scores =  script.text2music(num_input, max_length, top_p, temperature, text)
+    
+    path = os.getcwd()
+    # 出力するディレクトリ
+    output_dir = os.path.join(path, 'output')
+    
+    if not os.path.isdir(output_dir):
+        os.mkdir(f'{output_dir}')
+
+    # abcファイル保存先
+    dir_abc = os.path.join(output_dir, r'text-to-abc')
+    if not os.path.isdir(dir_abc):
+        os.mkdir(f'{dir_abc}')
+    
+    dt_now = datetime.datetime.now().strftime('%Y-%m-%d')
+    dir_abc_dt = os.path.join(dir_abc, dt_now)
+    abc_files = glob.glob(f'{dir_abc_dt}\*')
+    time.sleep(3)
+    # dt_now = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+    for num, abc in enumerate(abc_scores, len(abc_files) + 1):
+        # abc = script.removal(abc)
+        
+        pattern = r'"(.*?)"'
+        abc = re.sub(pattern, '', abc)
+        
+        # dt_now = datetime.datetime.now().strftime('%Y-%m-%d')
+        # dir_abc_dt = os.path.join(dir_abc, dt_now)
+        # abc_file_len = len(glob.glob(f'{dir_abc_dt}\*'))
+        
+        if not os.path.isdir(dir_abc_dt):
+            os.mkdir(f'{dir_abc_dt}')
+    
+        save_abc = f'{dir_abc_dt}\{num:08}.abc'
+        with open(save_abc, 'a') as f:
+            f.write(f'{unidecode(abc)}')
+
+def abc2midi(abc_file):
+
+    path = os.getcwd()
+    # 出力するディレクトリ
+    output_dir = os.path.join(path, 'output')
+
+    dir_midi = os.path.join(output_dir, r'abc-to-midi')
+    if not os.path.isdir(dir_midi):
+        os.mkdir(f'{dir_midi}')
+
+    dt_now = datetime.datetime.now().strftime('%Y-%m-%d')
+    dir_midi_dt = os.path.join(dir_midi, dt_now)
+    midi_files = glob.glob(f'{dir_midi_dt}\*')
+    
+    time.sleep(2)
+    script.abc_to_midi(abc_file, dir_midi_dt, len(midi_files))
+
+def midi2wav(midi_file, sf):
+
+    path = os.getcwd()
+    # 出力するディレクトリ
+    output_dir = os.path.join(path, 'output')
+
+    dir_wav = os.path.join(output_dir, r'midi-to-wav')
+    if not os.path.isdir(dir_wav):
+        os.mkdir(f'{dir_wav}')
+
+    dt_now = datetime.datetime.now().strftime('%Y-%m-%d')
+    dir_wav_dt = os.path.join(dir_wav, dt_now)
+    wav_file_len = len(glob.glob(f'{dir_wav_dt}\*'))
+    
+    time.sleep(3)
+    script.midi_to_wav(midi_file, dir_wav_dt, wav_file_len, sf)
+
+def wav2mp3():
+    pass
 
 def get_time():
     return datetime.datetime.now().time()
@@ -149,7 +215,7 @@ with gr.Blocks() as block:
             max_length = gr.Slider(2, 2048, value=1024, step=2, label="max_length", interactive=True)
             top_p = gr.Slider(0.1, 0.9, value=0.9, step=0.1, label="top_p", interactive=True)
             temperature = gr.Slider(1.0, 10.0, value=1.0, step=0.1, label="temperature", interactive=True)
-            output_file = gr.CheckboxGroup(FILE_EXT, value=FILE_EXT[-1], label='create file', interactive=True)
+            # output_file = gr.CheckboxGroup(FILE_EXT, value=FILE_EXT[-1], label='create file', interactive=True)
             sound_font_input = gr.Dropdown(SOUND_FONT, label='sound font', interactive=True)
             text_button = gr.Button("Flip")
             output_audio = gr.Audio()
@@ -165,7 +231,7 @@ with gr.Blocks() as block:
     # dt = gr.Textbox(label="Current time")
     # block.load(get_time, inputs=None, outputs=dt)
     
-    text_button.click(text_to_music, inputs=[text_input, num_input, max_length, top_p, temperature, output_file, sound_font_input], outputs=output_audio)
+    text_button.click(text_to_music, inputs=[text_input, num_input, max_length, top_p, temperature, sound_font_input], outputs=output_audio)
     # text_button.click(text_to_music, inputs=[text_input, num_input, max_length, top_p, temperature])
     
 
