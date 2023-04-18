@@ -32,16 +32,22 @@ def midi_to_wav(midi_files, wav_dir, wav_len, sf='SGM-V2.01.sf2'):
         
         tmp_wav.append(output_wav_file)
         
-        FluidSynth(sound_font=sf).midi_to_audio(midi, output_wav_file)
+        flag = FluidSynth(sound_font=sf).midi_to_audio(midi, output_wav_file)
+
+        if not flag is None:
+            tmp_wav.append(output_wav_file)
         
         time.sleep(3)
     
     for i in tmp_wav:
-        x.append(volume_up(i))
+        if os.path.isfile(i):
+            x.append(volume_up(i))
     
     # 音声調整前のwavの削除
     for i in tmp_wav:
-        os.remove(i)
+        if os.path.isfile(i):
+            os.remove(i)
+
     print('MIDIファイルをWAVファイルに変換しました')
 
     return x
