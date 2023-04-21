@@ -29,11 +29,10 @@ def relative_path(path):
 def text_to_music(text, num_input, max_length, top_p, temperature, sf):
     abc_scores =  script.text2music(num_input, max_length, top_p, temperature, text)
     
-    path = os.getcwd()
     # 出力するディレクトリ
     d_now = datetime.datetime.now().strftime('%Y-%m-%d')
     t_now = datetime.datetime.now().strftime('%H%M%S')
-    output_dir = os.path.join(path, fr'output\text-to-music\{d_now}\{t_now}')
+    output_dir = os.path.join(GETCED, fr'output\text-to-music\{d_now}\{t_now}')
     
     if not os.path.isdir(output_dir):
         os.makedirs(f'{output_dir}')
@@ -118,13 +117,6 @@ def text_to_music(text, num_input, max_length, top_p, temperature, sf):
     new_wav_files = relative_path(new_wav_files)
         
     # wav to mp3
-                
-    # abcからmidiにこの時の変換しといてい
-    # さらにmidiからwavにしてもいいかもしれない
-    # print(text, num_input, max_length, top_p, temperature, file, FILE_EXT)
-    # print(new_abc_files)
-    # print(new_midi_files)
-    # print(new_wav_files)
     
     return random.choice(new_wav_files)
 
@@ -132,9 +124,8 @@ def text2abc(text, num_input, max_length, top_p, temperature):
 
     abc_scores =  script.text2music(num_input, max_length, top_p, temperature, text)
     
-    path = os.getcwd()
     # 出力するディレクトリ
-    output_dir = os.path.join(path, 'output')
+    output_dir = os.path.join(GETCED, 'output')
     
     if not os.path.isdir(output_dir):
         os.mkdir(f'{output_dir}')
@@ -155,10 +146,6 @@ def text2abc(text, num_input, max_length, top_p, temperature):
         pattern = r'"(.*?)"'
         abc = re.sub(pattern, '', abc)
         
-        # dt_now = datetime.datetime.now().strftime('%Y-%m-%d')
-        # dir_abc_dt = os.path.join(dir_abc, dt_now)
-        # abc_file_len = len(glob.glob(f'{dir_abc_dt}\*'))
-        
         if not os.path.isdir(dir_abc_dt):
             os.mkdir(f'{dir_abc_dt}')
     
@@ -168,9 +155,8 @@ def text2abc(text, num_input, max_length, top_p, temperature):
 
 def abc2midi(abc_file):
 
-    path = os.getcwd()
     # 出力するディレクトリ
-    output_dir = os.path.join(path, 'output')
+    output_dir = os.path.join(GETCED, 'output')
 
     dir_midi = os.path.join(output_dir, r'abc-to-midi')
     if not os.path.isdir(dir_midi):
@@ -185,9 +171,8 @@ def abc2midi(abc_file):
 
 def midi2wav(midi_file, sf):
 
-    path = os.getcwd()
     # 出力するディレクトリ
-    output_dir = os.path.join(path, 'output')
+    output_dir = os.path.join(GETCED, 'output')
 
     dir_wav = os.path.join(output_dir, r'midi-to-wav')
     if not os.path.isdir(dir_wav):
@@ -217,23 +202,31 @@ with gr.Blocks() as block:
             temperature = gr.Slider(1.0, 10.0, value=1.0, step=0.1, label="temperature", interactive=True)
             # output_file = gr.CheckboxGroup(FILE_EXT, value=FILE_EXT[-1], label='create file', interactive=True)
             sound_font_input = gr.Dropdown(SOUND_FONT, label='sound font', interactive=True)
-            text_button = gr.Button("Flip")
+            text_button = gr.Button("run")
             output_audio = gr.Audio()
             
             # text_button = gr.Button("Flip")
         with gr.TabItem("abc2maid"):
-            pass
+            abcfile = gr.File(file_types=['.abc'])
+            abc2maid_run_button = gr.Button("run")
         with gr.TabItem("midi2wav"):
-            pass
+            midifile = gr.File(file_types=['.midi'])
+            midi2wav_run_button = gr.Button("run")
         with gr.TabItem("wav2mp3"):
-            pass
+            wabfile = gr.File(file_types=['.wav'])
+            wav2mp3_run_button = gr.Button("run")
+            
         
     # dt = gr.Textbox(label="Current time")
     # block.load(get_time, inputs=None, outputs=dt)
     
     text_button.click(text_to_music, inputs=[text_input, num_input, max_length, top_p, temperature, sound_font_input], outputs=output_audio)
-    # text_button.click(text_to_music, inputs=[text_input, num_input, max_length, top_p, temperature])
-    
+    abc2maid_run_button.click(abc2midi, inputs=[abcfile], outputs=abcfile)
+    midi2wav_run_button.click(midi2wav, inputs=[midifile], outputs=midifile)
+    wav2mp3_run_button.click(wav2mp3, inputs=[wabfile], outputs=wabfile)
+
+
+
 
 # 起動
 block.launch()
