@@ -25,10 +25,14 @@ Windows
 
 解凍したZIPファイル内のファイルを`ffmpegフォルダ`すべて移動させます。
 
+以下のように構成してください
 ```
 text-to-music-webui-main
 ├─ffmpeg
 │  └─bin
+│      ffmpeg.exe
+│      ffplay.exe
+│      ffprobe.exe
 ```
 
 ### FluidSynth
@@ -37,10 +41,24 @@ text-to-music-webui-main
 
 解凍したZIPファイル内のファイルを`fluidsynthフォルダ`すべて移動させます。
 
+以下のように構成してください
 ```
 text-to-music-webui-main
 ├─fluidsynth
 │  └─bin
+│      fluidsynth.exe
+│      libfluidsynth-3.dll
+│      libgcc_s_sjlj-1.dll
+│      libglib-2.0-0.dll
+│      libgobject-2.0-0.dll
+│      libgomp-1.dll
+│      libgthread-2.0-0.dll
+│      libinstpatch-2.dll
+│      libinstpatch-2.pdb
+│      libintl-8.dll
+│      libsndfile-1.dll
+│      libstdc++-6.dll
+│      libwinpthread-1.dll
 ```
 
 ### abcmidi
