@@ -19,12 +19,12 @@ def midi_to_wav(midi_files, wav_dir, wav_len, sf='SGM-V2.01.sf2'):
     if not os.path.isdir(wav_dir):
         os.mkdir(f'{wav_dir}')
         
-    name, ext = os.path.splitext(os.path.basename(sf[1]))
-    name = name.replace('.', '-')
+    # name, ext = os.path.splitext(os.path.basename(sf[1]))
+    # name = name.replace('.', '-')
     
     tmp_wav = [] # 音量調整前のwavリスト
     x = []
-    for num, midi in enumerate(midi_files, wav_len):
+    for num, midi in enumerate(midi_files, wav_len + 1):
         print(midi)
         
         dt = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
