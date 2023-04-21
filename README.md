@@ -19,8 +19,7 @@ Windows
 
 ### ffmpeg
 
-[DLサイト](https://github.com/BtbN/FFmpeg-Builds/releases)からどちらかダウンロードしてください
-- ffmpeg-master-latest-win64-gpl.zip
+[DLサイト](https://github.com/BtbN/FFmpeg-Builds/releases)以下のものをダウンロードしてください
 - ffmpeg-master-latest-win64-gpl-shared.zip
 
 解凍したZIPファイル内のファイルを`ffmpegフォルダ`すべて移動させます。
