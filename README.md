@@ -94,6 +94,23 @@ soundfontがないと音がならないのでインストールしてくださ�
 ---
 
 ### 環境
+
+仮想環境の作成
 ```
-pip install -r requirements.txt
+$ py -m venv .venv
+```
+
+アクティベート
+```
+$ .venv\Scripts\activate
+```
+
+仮想環境のアップデート
+```
+(.venv)$ pip install -U pip setuptools
+```
+
+仮想環境にライブラリのインストール
+```
+(.venv)$ pip install -r requirements.txt
 ```
