@@ -114,3 +114,8 @@ $ .venv\Scripts\activate
 ```
 (.venv)$ pip install -r requirements.txt
 ```
+
+https://pytorch.org/
+
+
+
