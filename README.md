@@ -34,6 +34,8 @@ text-to-music-webui-main
 │      ffprobe.exe
 ```
 
+---
+
 ### FluidSynth
 
 [DLサイト](https://github.com/FluidSynth/fluidsynth/releases)からダウンロードしてください。
@@ -60,6 +62,9 @@ text-to-music-webui-main
 │      libwinpthread-1.dll
 ```
 
+---
+
+
 ### abcmidi
 
 すでに入っているのでダウンロードは必要ない
@@ -73,14 +78,20 @@ text-to-music-webui-main
 ```
 text-to-music-webui-main
 ├─abc2midi
+│      abc2midi.exe
 ```
 
-### sf
+---
+
+
+### soundfont
 
 soundfontがないと音がならないのでインストールしてください
 [SGM-V2.01.sf2](https://ja.osdn.net/projects/sfnet_androidframe/downloads/soundfonts/SGM-V2.01.sf2/)
 
 置く場所は'soundFont'フォルダにおいてください
+
+---
 
 ### 環境
 ```
