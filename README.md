@@ -64,10 +64,9 @@ text-to-music-webui-main
 
 すでに入っているのでダウンロードは必要ない
 
-動かなければ[DLサイト](https://abcplus.sourceforge.net/#abcmidi)からインストールをしてください。
+動かなければ[DLサイト](https://abcplus.sourceforge.net/#abcmidi)から画像の赤ラインのzipファイルをインストールをしてください。
 
-<!--
-[DLサイト](https://abcplus.sourceforge.net/#abcmidi)からどちらかダウンロードしてください。
+![img](./img/abc.png)
 
 解凍したZIPファイル内のファイルを`abc2midiフォルダ`に移動させます。
 
@@ -75,12 +74,13 @@ text-to-music-webui-main
 text-to-music-webui-main
 ├─abc2midi
 ```
--->
 
 ### sf
 
+soundfontがないと音がならないのでインストールしてください
 [SGM-V2.01.sf2](https://ja.osdn.net/projects/sfnet_androidframe/downloads/soundfonts/SGM-V2.01.sf2/)
 
+置く場所は
 
 ### 環境
 ```
