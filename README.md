@@ -36,7 +36,7 @@ text-to-music-webui-main
 
 ### FluidSynth
 
-[DLサイト](https://github.com/FluidSynth/fluidsynth/releases)からどちらかダウンロードしてください。
+[DLサイト](https://github.com/FluidSynth/fluidsynth/releases)からダウンロードしてください。
 
 解凍したZIPファイル内のファイルを`fluidsynthフォルダ`すべて移動させます。
 
@@ -64,7 +64,7 @@ text-to-music-webui-main
 
 すでに入っているのでダウンロードは必要ない
 
-[DLサイト](https://abcplus.sourceforge.net/#abcmidi)
+動かなければ[DLサイト](https://abcplus.sourceforge.net/#abcmidi)からインストールをしてください。
 
 <!--
 [DLサイト](https://abcplus.sourceforge.net/#abcmidi)からどちらかダウンロードしてください。
