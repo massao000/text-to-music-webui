@@ -80,7 +80,7 @@ text-to-music-webui-main
 soundfontがないと音がならないのでインストールしてください
 [SGM-V2.01.sf2](https://ja.osdn.net/projects/sfnet_androidframe/downloads/soundfonts/SGM-V2.01.sf2/)
 
-置く場所は
+置く場所は'soundFont'フォルダにおいてください
 
 ### 環境
 ```
