@@ -95,7 +95,7 @@ text-to-music-webui-main
 ### soundfont
 
 soundfontがないと音がならないのでインストールしてください
-[SGM-V2.01.sf2](https://ja.osdn.net/projects/sfnet_androidframe/downloads/soundfonts/SGM-V2.01.sf2/)
+[soundfontDL](https://ja.osdn.net/projects/sfnet_androidframe/releases/)
 
 置く場所は'soundFont'フォルダにおいてください
 
