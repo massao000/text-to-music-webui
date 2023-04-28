@@ -118,12 +118,23 @@ $ .venv\Scripts\activate
 (.venv)$ pip install -U pip setuptools
 ```
 
+PC環境にあった`PyTorch`のインストール
+https://pytorch.org/
+```python
+# CPU
+pip install torch torchvision torchaudio
+
+# GPU-CUDA 11.8
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+
+# GPU-CUDA 11.7
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117
+```
+
 仮想環境にライブラリのインストール
 ```
 (.venv)$ pip install -r requirements.txt
 ```
-
-https://pytorch.org/
 
 
 
