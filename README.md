@@ -1,6 +1,17 @@
-# text-to-music-webui
+<!-- # text-to-music-webui -->
+<h1 align = "center">text-to-music-webui</h1>
+<p align="center">
+  <a href="https://img.shields.io/badge/python-3.9.0-blue">
+    <img src="https://img.shields.io/badge/python-3.9.0-blue"alt="python">
+  </a>
+  <a href="https://img.shields.io/badge/-Windows10-blue">
+    <img src="https://img.shields.io/badge/-Windows10-blue"alt="os">
+  </a>
+</p>
 
-Windows
+[sander-wood/text-to-music](https://huggingface.co/sander-wood/text-to-music)をもとにABC譜面をオーディオファイル(wav)に簡単に変換するアプリになります。
+
+
 
 <!-- 
 以下のものを利用します
@@ -15,9 +26,10 @@ Windows
     - [インストール方法](https://mahoroba.logical-arts.jp/archives/1865)
 -->
 
-## setting
+# 準備
 
-### ffmpeg
+## ffmpeg
+---
 
 [DLサイト](https://github.com/BtbN/FFmpeg-Builds/releases)以下のものをダウンロードしてください
 - ffmpeg-master-latest-win64-gpl-shared.zip
@@ -42,10 +54,10 @@ text-to-music-webui-main
 │      swscale-7.dll
 ```
 
+<br>
+
+## FluidSynth
 ---
-
-### FluidSynth
-
 [DLサイト](https://github.com/FluidSynth/fluidsynth/releases)からダウンロードしてください。
 
 解凍したZIPファイル内のファイルを`fluidsynthフォルダ`すべて移動させます。
@@ -70,10 +82,10 @@ text-to-music-webui-main
 │      libwinpthread-1.dll
 ```
 
+<br>
+
+## abcmidi
 ---
-
-
-### abcmidi
 
 すでに入っているのでダウンロードは必要ない
 
@@ -89,19 +101,20 @@ text-to-music-webui-main
 │      abc2midi.exe
 ```
 
+<br>
+
+## soundfont
 ---
-
-
-### soundfont
 
 soundfontがないと音がならないのでインストールしてください
 [soundfontDL](https://ja.osdn.net/projects/sfnet_androidframe/releases/)
 
 置く場所は'soundFont'フォルダにおいてください
 
----
+<br>
 
-### 環境
+## 環境
+---
 
 仮想環境の作成
 ```bash
@@ -140,4 +153,13 @@ pip3 install torch torchvision torchaudio --index-url https://download.pytorch.o
 ファイル実行がでるようにbatファイルを作成
 環境も一緒にできればなおよし
 -->
+
+
+# 免責事項
+
+本アプリで生成されたコンテンツに関する責任は、利用者自身にあります。
+
+開発者は、本アプリを利用したことにより生じたあらゆる損害、損失、トラブル等に対して一切の責任を負いません。
+
+利用者は、本アプリを自己責任で利用することをご了承いただきますようお願いいたします。
 
