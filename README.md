@@ -104,23 +104,23 @@ soundfontがないと音がならないのでインストールしてくださ�
 ### 環境
 
 仮想環境の作成
-```
+```bash
 $ py -m venv .venv
 ```
 
 アクティベート
-```
+```bash
 $ .venv\Scripts\activate
 ```
 
 仮想環境のアップデート
-```
+```bash
 (.venv)$ pip install -U pip setuptools
 ```
 
 PC環境にあった`PyTorch`のインストール
 https://pytorch.org/
-```python
+```bash
 # CPU
 pip install torch torchvision torchaudio
 
@@ -132,9 +132,12 @@ pip3 install torch torchvision torchaudio --index-url https://download.pytorch.o
 ```
 
 仮想環境にライブラリのインストール
-```
+```bash
 (.venv)$ pip install -r requirements.txt
 ```
 
-
+<!--
+ファイル実行がでるようにbatファイルを作成
+環境も一緒にできればなおよし
+-->
 
