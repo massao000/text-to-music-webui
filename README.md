@@ -58,6 +58,8 @@ text-to-music-webui-main
 
 ## FluidSynth
 ---
+すでに入っているのでダウンロードは必要ない
+
 [DLサイト](https://github.com/FluidSynth/fluidsynth/releases)からダウンロードしてください。
 
 解凍したZIPファイル内のファイルを`fluidsynthフォルダ`すべて移動させます。
