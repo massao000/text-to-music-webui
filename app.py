@@ -49,15 +49,13 @@ def text_to_music(text, num_input, max_length, top_p, temperature, sf):
     if not os.path.isdir(dir_abc):
         os.mkdir(f'{dir_abc}')
     
-    # dt_now = datetime.datetime.now().strftime('%Y-%m-%d')
-    # dir_abc_dt = os.path.join(dir_abc, dt_now)
-    # abc_files = glob.glob(f'{dir_abc_dt}\*')
     abc_files = glob.glob(f'{dir_abc}\*')
     time.sleep(3)
-    # dt_now = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+
     for num, abc in enumerate(abc_scores, len(abc_files) + 1):
         # abc = script.removal(abc)
         
+        # 編集前と編集後のabcファイルを分ける
         pattern = r'"(.*?)"'
         abc = re.sub(pattern, '', abc)
         
@@ -78,25 +76,10 @@ def text_to_music(text, num_input, max_length, top_p, temperature, sf):
     if not os.path.isdir(dir_midi):
         os.mkdir(f'{dir_midi}')
 
-    # dt_now = datetime.datetime.now().strftime('%Y-%m-%d')
-    # dir_midi_dt = os.path.join(dir_midi, dt_now)
-    # midi_files = glob.glob(f'{dir_midi_dt}\*')
     midi_files = glob.glob(f'{dir_midi}\*')
     
     time.sleep(2)
     new_midi_files = script.abc_to_midi(new_abc_files, dir_midi, len(midi_files))
-    
-    # 変換できなっ方ものの削除
-    # comparison = list(set(new_midi_files) ^ set(midi_files))
-    
-    # print(f'確認：{midi_files}')
-    # print(f'確認：{new_midi_files}')
-    # print(f'確認：{comparison}')
-    
-    # for num, i in enumerate(new_midi_files):
-    #     if i in comparison:
-    #         new_midi_files.pop(num)
-
     
     new_midi_files = relative_path(new_midi_files)
     
@@ -106,9 +89,6 @@ def text_to_music(text, num_input, max_length, top_p, temperature, sf):
     if not os.path.isdir(dir_wav):
         os.mkdir(f'{dir_wav}')
 
-    # dt_now = datetime.datetime.now().strftime('%Y-%m-%d')
-    # dir_wav_dt = os.path.join(dir_wav, dt_now)
-    # wav_file_len = len(glob.glob(f'{dir_wav_dt}\*'))
     wav_file_len = len(glob.glob(f'{dir_wav}\*'))
     
     time.sleep(3)
@@ -139,7 +119,7 @@ def text2abc(text, num_input, max_length, top_p, temperature):
     dir_abc_dt = os.path.join(dir_abc, dt_now)
     abc_files = glob.glob(f'{dir_abc_dt}\*')
     time.sleep(3)
-    # dt_now = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+
     for num, abc in enumerate(abc_scores, len(abc_files) + 1):
         # abc = script.removal(abc)
         
@@ -188,45 +168,42 @@ def midi2wav(midi_file, sf):
 def wav2mp3():
     pass
 
-def get_time():
-    return datetime.datetime.now().time()
 
 # UI
 with gr.Blocks() as block:
     with gr.Tabs():
         with gr.TabItem("text2music"):
-            text_input = gr.Textbox(label='prompt')
-            num_input = gr.Slider(1, 50, value=4, step=1, label="曲数", interactive=True)
+            text_input = gr.Textbox(label='prompt', info='song prompt', interactive=True)
+            num_input = gr.Slider(1, 50, value=4, step=1, label="number of songs", interactive=True)
             max_length = gr.Slider(2, 2048, value=1024, step=2, label="max_length", interactive=True)
             top_p = gr.Slider(0.1, 0.9, value=0.9, step=0.1, label="top_p", interactive=True)
             temperature = gr.Slider(1.0, 10.0, value=1.0, step=0.1, label="temperature", interactive=True)
             # output_file = gr.CheckboxGroup(FILE_EXT, value=FILE_EXT[-1], label='create file', interactive=True)
             sound_font_input = gr.Dropdown(SOUND_FONT, label='sound font', interactive=True)
-            text_button = gr.Button("run")
+            text_button = gr.Button("run", variant="primary")
             output_audio = gr.Audio()
             
-            # text_button = gr.Button("Flip")
-        with gr.TabItem("abc2maid"):
-            abcfile = gr.File(file_types=['.abc'])
-            abc2maid_run_button = gr.Button("run")
-        with gr.TabItem("midi2wav"):
-            midifile = gr.File(file_types=['.midi'])
-            midi2wav_run_button = gr.Button("run")
-        with gr.TabItem("wav2mp3"):
-            wabfile = gr.File(file_types=['.wav'])
-            wav2mp3_run_button = gr.Button("run")
+        # with gr.TabItem("abc2maid"):
+        #     abcfile = gr.File(file_types=['.abc'])
+        #     abc2maid_run_button = gr.Button("run", variant="primary")
+        # with gr.TabItem("midi2wav"):
+        #     midifile = gr.File(file_types=['.midi'])
+        #     midi2wav_run_button = gr.Button("run", variant="primary")
+        # with gr.TabItem("wav2mp3"):
+        #     wabfile = gr.File(file_types=['.wav'])
+        #     wav2mp3_run_button = gr.Button("run", variant="primary")
             
-        
-    # dt = gr.Textbox(label="Current time")
-    # block.load(get_time, inputs=None, outputs=dt)
     
     text_button.click(text_to_music, inputs=[text_input, num_input, max_length, top_p, temperature, sound_font_input], outputs=output_audio)
-    abc2maid_run_button.click(abc2midi, inputs=[abcfile], outputs=abcfile)
-    midi2wav_run_button.click(midi2wav, inputs=[midifile], outputs=midifile)
-    wav2mp3_run_button.click(wav2mp3, inputs=[wabfile], outputs=wabfile)
+    # abc2maid_run_button.click(abc2midi, inputs=[abcfile], outputs=abcfile)
+    # midi2wav_run_button.click(midi2wav, inputs=[midifile], outputs=midifile)
+    # wav2mp3_run_button.click(wav2mp3, inputs=[wabfile], outputs=wabfile)
 
 
 
 
 # 起動
-block.launch()
+block.launch(
+    inbrowser=True,
+    quiet=True
+    )
