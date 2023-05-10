@@ -111,12 +111,16 @@ text-to-music-webui-main
 soundfontがないと音がならないのでインストールしてください
 [soundfontDL](https://ja.osdn.net/projects/sfnet_androidframe/releases/)
 
-置く場所は'soundFont'フォルダにおいてください
+置く場所は`soundFont`フォルダにおいてください
 
 <br>
 
 ## 環境
 ---
+
+`run_app.bat`をダブルクリックで簡単に環境ができます。
+
+もしくは
 
 仮想環境の作成
 ```bash
