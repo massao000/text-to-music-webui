@@ -31,6 +31,8 @@
 ## ffmpeg
 ---
 
+すでに入っているのでダウンロードは必要ない
+
 [DLサイト](https://github.com/BtbN/FFmpeg-Builds/releases)以下のものをダウンロードしてください
 - ffmpeg-master-latest-win64-gpl-shared.zip
 
