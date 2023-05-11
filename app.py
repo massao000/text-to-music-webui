@@ -168,18 +168,28 @@ def midi2wav(midi_file, sf):
 def wav2mp3():
     pass
 
+def sound_font():
+    
+    global SOUND_FONT
+
+    SOUND_FONT = glob.glob(f'.\soundFont\*.sf2')
+    
+    return gr.Dropdown.update(choices=SOUND_FONT)
+    
 
 # UI
 with gr.Blocks() as block:
     with gr.Tabs():
         with gr.TabItem("text2music"):
-            text_input = gr.Textbox(label='prompt', info='song prompt', interactive=True)
+            text_input = gr.Textbox(label='prompt', info='default prompt:This is a traditional Irish dance music.', interactive=True)
             num_input = gr.Slider(1, 50, value=4, step=1, label="number of songs", interactive=True)
             max_length = gr.Slider(2, 2048, value=1024, step=2, label="max_length", interactive=True)
             top_p = gr.Slider(0.1, 0.9, value=0.9, step=0.1, label="top_p", interactive=True)
             temperature = gr.Slider(1.0, 10.0, value=1.0, step=0.1, label="temperature", interactive=True)
             # output_file = gr.CheckboxGroup(FILE_EXT, value=FILE_EXT[-1], label='create file', interactive=True)
-            sound_font_input = gr.Dropdown(SOUND_FONT, label='sound font', interactive=True)
+            with gr.Row():
+                sound_font_input = gr.Dropdown(SOUND_FONT, label='sound font', interactive=True)
+                sound_font_reload = gr.Button("Reloading SoundFont files")
             text_button = gr.Button("run", variant="primary")
             output_audio = gr.Audio()
             
@@ -195,6 +205,7 @@ with gr.Blocks() as block:
             
     
     text_button.click(text_to_music, inputs=[text_input, num_input, max_length, top_p, temperature, sound_font_input], outputs=output_audio)
+    sound_font_reload.click(sound_font, inputs=[], outputs=sound_font_input)
     # abc2maid_run_button.click(abc2midi, inputs=[abcfile], outputs=abcfile)
     # midi2wav_run_button.click(midi2wav, inputs=[midifile], outputs=midifile)
     # wav2mp3_run_button.click(wav2mp3, inputs=[wabfile], outputs=wabfile)
